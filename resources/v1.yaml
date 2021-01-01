@@ -1,0 +1,105 @@
+swagger: '2.0'
+info:
+  title: my-apis
+  version: 1.1.0
+  description: It returns environment variables, HTTP request headers and so on.
+produces:
+  - application/json
+schemes:
+  - https
+paths:
+  /:
+    get:
+      operationId: getEverything
+      description: |
+        returns everything
+      x-google-backend:
+        address: <backend-apis>
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Everything'
+  /app:
+    get:
+      operationId: getApp
+      description: |
+        returns application information
+      x-google-backend:
+        address: <backend-apis>/app
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Application'
+definitions:
+  Everything:
+    description: application context
+    required:
+      - app
+      - req
+    properties:
+      app:
+        $ref: '#/definitions/Application'
+      req:
+        $ref: '#/definitions/HTTPRequest'
+  Application:
+    description: Application information
+    required:
+      - envs
+      - grp
+      - user
+      - workdir
+    properties:
+      envs:
+        description: Environment variables
+        type: array
+        items:
+          type: string
+      workdir:
+        description: Working directory
+        type: string
+      grp:
+        description: The group ID of the calling process
+        type: integer
+        format: int64
+      user:
+        description: The user ID of the calling process
+        type: integer
+        format: int64
+  HTTPRequest:
+    description: HTTP request information
+    required:
+      - protocol
+      - method
+      - host
+      - remote_addr
+      - uri
+      - headers
+    properties:
+      protocol:
+        description: HTTP Protocol
+        type: string
+      method:
+        description: HTTP Method
+        type: string
+        enum:
+          - get
+      host:
+        description: Host
+        type: string
+      remote_addr:
+        description: Remote address
+        type: string
+      uri:
+        description: URI
+        type: string
+        pattern: >-
+          ^((http[s]?):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$
+      headers:
+        description: HTTP request headers
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            type: string
