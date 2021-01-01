@@ -45,6 +45,7 @@ paths:
           in: path
           description: Can specify an HTTP status code
           type: string
+          required: true
       responses:
         default:
           description: Unexpected error
