@@ -6,7 +6,7 @@ ENV JUPYTER_LAB_VERSION=3.0.0 \
     PATH=/usr/local/share/google-cloud-sdk/bin:$PATH
 
 # Install JupyterLab
-RUN apk --no-cache add python3 py3-pyzmq py3-six py3-requests tini jq \
+RUN apk --no-cache add python3 py3-pyzmq py3-six py3-requests tini curl jq \
     && apk --no-cache add --virtual build-deps build-base py3-pip \
         python3-dev libffi-dev openssl-dev \
     && python3 -m pip install "jupyterlab == ${JUPYTER_LAB_VERSION}" \
