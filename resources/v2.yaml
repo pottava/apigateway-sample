@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: my-apis
-  version: 1.2.0
+  version: 2.0.0
   description: It returns environment variables, HTTP request headers and so on.
 produces:
   - application/json

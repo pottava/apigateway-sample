@@ -1,0 +1,26 @@
+name: Publish docker images
+
+on:
+  push:
+    tags:
+    - '*'
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  release-jupyter-image:
+    name: Push Docker image
+    if: github.event_name == 'push' && contains(github.ref, 'jupyter-v')
+    runs-on: ubuntu-18.04
+    env:
+      IMAGE_NAME: ghcr.io/pottava/apigateway:jupyter-v1.0
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build & Push
+      run: |
+        echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+        docker build --file container/jupyter/Dockerfile --tag "${IMAGE_NAME}" .
+        docker push "${IMAGE_NAME}"
+    timeout-minutes: 15
