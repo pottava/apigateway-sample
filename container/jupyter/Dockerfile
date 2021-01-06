@@ -31,14 +31,18 @@ RUN apk --no-cache add bash \
     && rm -rf gcloud.tar.gz \
     && apk del --purge -r build-deps
 
-ADD notebooks /root/notebook
-ADD resources /root/notebook/resources
-WORKDIR /root/notebook
-
-VOLUME /root/config
-
-ADD container/jupyter/jupyter_server_config.py /root/.jupyter/
 ADD container/jupyter/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["tini", "--", "/entrypoint.sh"]
 CMD ["jupyter-lab"]
+
+RUN apk --no-cache add sudo \
+    && adduser -S -G wheel jupyter \
+    && echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+VOLUME /home/jupyter/config
+WORKDIR /home/jupyter/notebook
+ADD notebooks /home/jupyter/notebook
+ADD resources /home/jupyter/notebook/resources
+ADD container/jupyter/jupyter_server_config.py /home/jupyter/.jupyter/
+RUN chown -R jupyter:wheel /home/jupyter
+USER jupyter

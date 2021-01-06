@@ -121,7 +121,7 @@ c.ServerApp.allow_remote_access = True
 
 ## Whether to allow the user to run the server as root.
 #  Default: False
-c.ServerApp.allow_root = True
+c.ServerApp.allow_root = False
 
 ## Answer yes to any prompts.
 #  See also: JupyterApp.answer_yes

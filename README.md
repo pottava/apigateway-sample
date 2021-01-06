@@ -16,8 +16,8 @@ $ export PROJECT_ID=<あなたの Google Cloud プロジェクト ID>
 ```
 $ docker run --rm -it -e PROJECT_ID \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $HOME/.config/gcloud:/root/.config/gcloud \
-    -v $(pwd):/root/config \
+    -v $HOME/.config/gcloud:/home/jupyter/.config/gcloud \
+    -v $(pwd):/home/jupyter/config \
     -p 8080:8080 \
     ghcr.io/pottava/apigateway:jupyter-v1.0
 ```
