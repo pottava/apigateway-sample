@@ -24,7 +24,7 @@ $ docker run --rm -it -e PROJECT_ID \
 
 ### 3. ブラウザで環境に接続します
 
-ブラウザで http://localhost:8080/lab/tree/00-overview.ipynb を開いてください。  
+ブラウザで http://localhost:8080/lab/tree/0-overview.ipynb を開いてください。  
 パスワードを聞かれるので **google** と入力してください。
 
 ### 4. ハンズオンの実施
@@ -33,9 +33,9 @@ $ docker run --rm -it -e PROJECT_ID \
 以下の順序でハンズオンを進めてください。
 
 ```
-- 00-overview.ipynb
-- 01-deploy-apigateway.ipynb
-- 05-teardown-resources.ipynb
+- 0-overview.ipynb
+- 1-deploy-apigateway.ipynb
+- 5-teardown-resources.ipynb
 ```
 
 ### 5. 後片付け
