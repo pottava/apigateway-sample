@@ -1,3 +1,5 @@
 .env
 .vscode
+.ipynb_checkpoints
+notebooks/resources
 todo*

@@ -35,6 +35,7 @@ $ docker run --rm -it -e PROJECT_ID \
 ```
 - 0-overview.ipynb
 - 1-deploy-apigateway.ipynb
+- 2-secure-apis.ipynb
 - 5-teardown-resources.ipynb
 ```
 
