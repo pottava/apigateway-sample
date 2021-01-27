@@ -6,24 +6,21 @@ function usage() {
 
   [ Google Cloud: API Gateway ハンズオン ]
 
-  8080 番ポートで待機する JuputerLab が起動します。
-  API Gateway の継続的デリバリー ハンズオンです。
+  API Gateway 構築ハンズオンです。
+  8080 番ポートで待機する JuputerLab 内で実施します。
 
   必要な環境変数:
       PROJECT_ID   Google Cloud プロジェクトの ID
 
   必要なホストからのマウント:
-      /var/run/docker.sock          Docker の通信のため
       /home/jupyter/.config/gcloud  Google Cloud の認証済クレデンシャル
       /home/jupyter/config          設定ファイルを共有するため
 
   例:
-      $ export PROJECT_ID=<your-google-cloud-project-id>
-      $ docker run --rm -it -e PROJECT_ID \\
-          -v /var/run/docker.sock:/var/run/docker.sock \\
+      $ docker run --rm -it -p 8080:8080 \\
+          -e PROJECT_ID="\$(gcloud config get-value project)" \\
           -v \$HOME/.config/gcloud:/home/jupyter/.config/gcloud \\
           -v \$(pwd):/home/jupyter/config \\
-          -p 8080:8080 \\
           ghcr.io/pottava/apigateway:jupyter-v1.0
 
 EOM
@@ -51,13 +48,6 @@ if [ "${ret}" != "0" ] || [ "${ACCOUNT}" = "" ]; then
   exit 1
 fi
 
-versions=$( sudo docker version | sed -e 's|Docker Engine.*||g' )
-ret="$?"
-if [ "${ret}" != "0" ]; then
-  echo "Docker ホストとの通信に問題があります"
-  exit "${ret}"
-fi
-
 if [ ! -e /home/jupyter/config/.env ]; then
   cat << EOF > /home/jupyter/config/.env
 export RANDOM_KEY=$( python3 -c "import uuid;print(uuid.uuid4())" )
@@ -73,11 +63,6 @@ cat << EOT
   Project ID: ${PROJECT_ID}
   Account:    ${ACCOUNT}
   SDK ver:    $(gcloud --version | grep Cloud)
-
-  [ Docker 情報 ]
-
-  ClientVer: $( echo "${versions}" | yq -r '.Client.Version' )
-  ServerVer: $( echo "${versions}" | yq -r '.Server.Engine.Version' )
 
 EOT
 

@@ -1,7 +1,7 @@
-FROM docker:20.10.1-dind
+FROM docker:20.10.2-dind
 
-ENV JUPYTER_LAB_VERSION=3.0.0 \
-    GCLOUD_VERSION=321.0.0 \
+ENV JUPYTER_LAB_VERSION=3.0.5 \
+    GCLOUD_VERSION=325.0.0 \
     LANG=ja_JP.UTF-8 \
     PATH=/usr/local/share/google-cloud-sdk/bin:$PATH
 
@@ -23,10 +23,10 @@ RUN apk --no-cache add bash \
     && apk --no-cache add --virtual build-deps curl py3-six \
     && cd /usr/local/share \
     && curl -sSL "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz" -o gcloud.tar.gz \
-    && echo "673f8d4af5e524dcf06547f6c2debcc02ff6678f47f67812d7f90c696cd76e96  gcloud.tar.gz" | sha256sum -c - \
-    && tar xvf gcloud.tar.gz \
-    && ./google-cloud-sdk/install.sh --quiet \
-    && gcloud components install beta --quiet \
+    && echo "374f960c9f384f88b6fc190b268ceac5dcad777301390107af63782bfb5ecbc7  gcloud.tar.gz" | sha256sum -c - \
+    && tar xf gcloud.tar.gz \
+    && ./google-cloud-sdk/install.sh --quiet 2>/dev/null \
+    && gcloud components install beta --quiet 2>/dev/null \
     && find / -type d -name \__pycache__ -depth -exec rm -rf {} \; \
     && rm -rf gcloud.tar.gz \
     && apk del --purge -r build-deps

@@ -5,29 +5,22 @@ Docker クライアントを操作できる端末を起動し、以下のステ�
 
 ## ハンズオン環境の起動
 
-### 1. プロジェクト ID を変数に設定します
+### 1. ハンズオン環境を起動します
 
-```
-$ export PROJECT_ID=<あなたの Google Cloud プロジェクト ID>
-```
-
-### 2. ハンズオン環境を起動します
-
-```
-$ docker run --rm -it -e PROJECT_ID \
-    -v /var/run/docker.sock:/var/run/docker.sock \
+```sh
+$ docker run --rm -it -p 8080:8080 \
+    -e PROJECT_ID="$(gcloud config get-value project)" \
     -v $HOME/.config/gcloud:/home/jupyter/.config/gcloud \
     -v $(pwd):/home/jupyter/config \
-    -p 8080:8080 \
     ghcr.io/pottava/apigateway:jupyter-v1.0
 ```
 
-### 3. ブラウザで環境に接続します
+### 2. ブラウザで環境に接続します
 
 ブラウザで http://localhost:8080/lab/tree/0-overview.ipynb を開いてください。  
 パスワードを聞かれるので **google** と入力してください。
 
-### 4. ハンズオンの実施
+### 3. ハンズオンの実施
 
 ハンズオンはブラウザ内の JupyterLab で行います。  
 以下の順序でハンズオンを進めてください。
@@ -39,7 +32,7 @@ $ docker run --rm -it -e PROJECT_ID \
 - 5-teardown-resources.ipynb
 ```
 
-### 5. 後片付け
+### 4. 後片付け
 
 `Ctrl + C` でコンテナに停止シグナルを送ると、JupyterLab から  
 `Shutdown this Jupyter server (y/[n])?` と聞かれます。 
